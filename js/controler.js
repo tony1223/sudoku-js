@@ -117,9 +117,10 @@ SudokuBox.prototype.startUserInput=function($tar){
 		c=$tar.attr('c'),
 	    g=$tar.attr('g'),
 	    $in=this.getCells(),
-	    $put=$('.put');
-	sudokubox._maskCell($tar);
-	sudokubox.focusCells(r,c,g);
+	    $put=$('.put'),
+	    sudokubox = this;
+	this._maskCell($tar);
+	this.focusCells(r,c,g);
 	$('<input type="text" r="'+r+'" c+"'+c+'" />').appendTo($put).keyup(function(){
 		$this = $(this);
 		$in.filter('[r="'+r+'"][c="'+c+'"]').find('span').html($this.val());
