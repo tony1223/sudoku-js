@@ -48,10 +48,11 @@ SudokuBox.prototype.bindCell=function(){
  *          6,7,8 </pre>
  * @return SudukuBox
  */
-SudokuBox.prototype.focusCells=function(r,c,g){
+SudokuBox.prototype.focusCells=function($tar){
 	var $in=this.getCells();
 	$in.removeClass('fo');
-	$in.filter('[r="'+r+'"],[c="'+c+'"],[g="'+g+'"]').addClass('fo');
+
+	this.getRelativeCell($tar).addClass('fo');
 	return this;
 }
 
@@ -65,18 +66,19 @@ SudokuBox.prototype.focusCells=function(r,c,g){
  * @Todo here's a bug if user modify the number twice , it will be incorrect.
  */
 SudokuBox.prototype.updateCells=function(activeCell){
-	var r=activeCell.attr('r');
-	var c=activeCell.attr('c');
-	var g=activeCell.attr('g');
 	var n=activeCell.find('span').html();
-
 	//remove all the numbers in cell
 	activeCell.find('.mm').remove();
-
-	this.getCells().filter('[r="'+r+'"],[c="'+c+'"],[g="'+g+'"]').find('.mm[m="'+n+'"]').remove();
+	this.getRelativeCell(activeCell).find('.mm[m="'+n+'"]').remove();
 
 }
+SudokuBox.prototype.getRelativeCell=function(activeCell){
+	var r = activeCell.attr('r'),
+		c = activeCell.attr('c'),
+		g = activeCell.attr('g');
 
+	return this.getCells().filter('[r="'+r+'"],[c="'+c+'"],[g="'+g+'"]');
+}
 /**
  * get all the cell contrains
  * @return
@@ -114,12 +116,11 @@ SudokuBox.prototype.getCells=function(){
 SudokuBox.prototype.startUserInput=function($tar){
 	var r=$tar.attr('r'),
 		c=$tar.attr('c'),
-	    g=$tar.attr('g'),
 	    $in=this.getCells(),
 	    $put=$('.put'),
 	    sudokubox = this;
 	this._maskCell($tar);
-	this.focusCells(r,c,g);
+	this.focusCells($tar);
 	$('<input type="text" r="'+r+'" c+"'+c+'" />').appendTo($put).keyup(function(){
 		$this = $(this);
 		$in.filter('[r="'+r+'"][c="'+c+'"]').find('span').html($this.val());
