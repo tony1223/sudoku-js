@@ -25,9 +25,10 @@ function SudokuBox(context){
 
 /**
  * bind cell event after cell is created
- * @return
+ * @return SudukuBox
  */
 SudokuBox.prototype.bindCell=function(){
+	var sudokubox = this;
 	var $in=$('.in');
 	var $put=$('.put');
 	$in.click(function(){
@@ -39,7 +40,7 @@ SudokuBox.prototype.bindCell=function(){
 		var t=$tar.position().top+parseInt(txt.substr(0,txt.length));
 		var l=$tar.position().left;
 		$put.css({left:l,top:t}).show();
-		fo_in(r,c,g);
+		sudokubox.focusCells(r,c,g);
 		$('<input type="text" r="'+r+'" c+"'+c+'" />').appendTo($put).keyup(function(){
 			$this = $(this);
 			$in.filter('[r="'+r+'"][c="'+c+'"]').find('span').html($this.val());
@@ -47,7 +48,28 @@ SudokuBox.prototype.bindCell=function(){
 			clear_input();
 		}).focusout(clear_input).width(20).height(20).focus();
 	});
+	return this;
 }
+
+/**
+ * focus all the related cells ,
+ * including the horizontal line , the vertical line and the groups.
+ * @param r horizontal index  from 0 ~ 8
+ * @param c vertical index from 0 ~ 8
+ * @param g group , 3*3 cells for a group , it's in order from left to right ,
+ *   <pre> 0,1,2,
+ *          3,4,5,
+ *          6,7,8 </pre>
+ * @return SudukuBox
+ */
+SudokuBox.prototype.focusCells=function(r,c,g){
+	var $in=$('.in');
+	var $put=$('.put');
+	$in.removeClass('fo');
+	$in.filter('[r="'+r+'"],[c="'+c+'"],[g="'+g+'"]').addClass('fo');
+	return this;
+}
+
 
 var box=$('.box');
 
@@ -57,10 +79,7 @@ sudokubox.bindCell();
 
 var $in=$('.in');
 var $put=$('.put');
-function fo_in(r,c,g){
-	$in.removeClass('fo');
-	$in.filter('[r="'+r+'"],[c="'+c+'"],[g="'+g+'"]').addClass('fo');
-}
+
 function clear_input(){
 	$in.removeClass('fo');
 	$put.hide().find('input').remove();
