@@ -1,20 +1,32 @@
 /**
  * The controller for main.html
  */
-var box=$('.box');
-for(var i=0;i<9;i++){
-	for(var j=0;j<9;j++){
-		var c = i;
-		var r = j;
-		var g = Math.floor(i/3)*3 + Math.floor(j/3);
-		var one=$('<div class="in c'+c+' r'+r+'" r="'+r+'" c="'+c+'" g="'+g+'"></div>').append('<span></span>').appendTo(box);
-		for(var m=1;m<=9;m++){
-			var t=3+Math.floor((m-1)/3)*12;
-			var l=3+Math.floor((m-1)%3)*12;
-			$('<div class="mm" m="'+m+'">'+m+'</div>').appendTo(one).css({top:t,left:l});
+
+/**
+ * init for sudoku box
+ */
+function SudokuBox(context){
+
+	//add every number helper (1-9) each cell here.
+	for(var i=0;i<9;i++){
+		for(var j=0;j<9;j++){
+			var c = i;
+			var r = j;
+			var g = Math.floor(i/3)*3 + Math.floor(j/3);
+			var one=$('<div class="in c'+c+' r'+r+'" r="'+r+'" c="'+c+'" g="'+g+'"></div>').append('<span></span>').appendTo(context);
+			for(var m=1;m<=9;m++){
+				var t=3+Math.floor((m-1)/3)*12;
+				var l=3+Math.floor((m-1)%3)*12;
+				$('<div class="mm" m="'+m+'">'+m+'</div>').appendTo(one).css({top:t,left:l});
+			}
 		}
 	}
 }
+
+var box=$('.box');
+
+var sudokubox = new SudokuBox(box);
+
 var $in=$('.in');
 var $put=$('.put');
 $in.click(function(){
