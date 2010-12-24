@@ -137,41 +137,68 @@ var box=$('.box');
 var sudokubox = new SudokuBox(box);
 sudokubox.bindCell();
 
-
 var $in=sudokubox.getCells();
 
 
+/**
+ * We create a strategy class for how to solve sudoku.
+ * each return a boolean for find solution or not.
+ */
+var SolveStrategy = {
 
-function check_2(){
-	var flag = true;
-	$('span').removeClass('red');
-	$.each(['r','c','g'],function(k,v){
-		for(var i=0;i<9;i++){
-			var mm=$in.filter('['+v+'="'+i+'"]').find('.mm');
-			for(var j=1;j<=9;j++){
-				var tmp=mm.filter('[m="'+j+'"]');
-				if(tmp.length==1){
-					find_one(tmp);
-					flag = false;
+	one:function(sudoku){
+		var flag = true;
+		$('span').removeClass('red');
+
+		//Here to find which line/group is already feed eight number,
+		//and it will auto fill the last number for it .
+		// Here's a bit too tricky for me. :P
+		$.each(['r','c','g'],function(k,v){
+			for(var i=0;i<9;i++){
+				var mm = $in.filter('['+v+'="'+i+'"]').find('.mm');
+
+				for(var j = 1 ; j <= 9 ; j++){
+					var tmp = mm.filter('[m="' + j + '"]');
+					if( tmp.length == 1 ){
+						find_one(tmp);
+						flag = false;
+					}
 				}
 			}
-		}
-	});
-	$in.has('.mm').each(function(){
-		var mm=$(this).find('.mm');
-		if(mm.length==1){
-			find_one(mm);
-			flag = false;
-		}
-	});
-	if(flag){
+		});
+		//If any mn is only one , that means it's a solution,
+		//it's still a tricky things. XD
+		$in.has('.mm').each(function(){
+			var mm=$(this).find('.mm');
+			if(mm.length==1){
+				find_one(mm);
+				flag = false;
+			}
+		});
+
+		return flag;
+	}
+}
+
+/**
+ * Start to resolve the soduku. (The event handler for the button)
+ * @return
+ */
+function solve(){
+	var flag = SolveStrategy.one(sudokubox);
+	if(flag){ //if nothing changes
+		//if there not any existing empty cell ,
+		//it means game is over now.
 		if($('.mm').length == 0){
 			$('.info').html('結束');
 			return;
 		}
 		check_3();
+
 	}else{
-		setTimeout(check_2,500);
+		// if it change something , we just run it again after.
+		// because if you fill a cell , it will effect other cell's number(mn).
+		setTimeout(solve,500);
 	}
 }
 function check_3(){
@@ -207,7 +234,7 @@ function check_3(){
 	if(flag){
 		check_4();
 	}else{
-		check_2();
+		solve();
 	}
 }
 function check_4(){
@@ -226,7 +253,7 @@ function check_4(){
 	if(flag){
 		check_5();
 	}else{
-		check_2();
+		solve();
 	}
 }
 function check_5(){
@@ -257,7 +284,7 @@ function check_5(){
 	if(flag){
 		$('.info').html('結束');
 	}else{
-		check_2();
+		solve();
 	}
 }
 function check_4_1(tmp){
@@ -308,4 +335,4 @@ function find_one($this){
 	sudokubox.updateCells(p);
 	$this.remove();
 }
-$('#check_ok2').click(check_2);
+$('#check_ok2').click(solve);
