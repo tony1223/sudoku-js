@@ -111,6 +111,10 @@ sudokubox.bindCell();
 
 
 var $in=sudokubox.getCells();
+
+/**
+ * we use a div to overlap the cells numbers , and we call it "put"
+ */
 var $put=$('.put');
 
 
