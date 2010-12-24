@@ -44,7 +44,7 @@ SudokuBox.prototype.bindCell=function(){
 		$('<input type="text" r="'+r+'" c+"'+c+'" />').appendTo($put).keyup(function(){
 			$this = $(this);
 			$in.filter('[r="'+r+'"][c="'+c+'"]').find('span').html($this.val());
-			check_1($tar);
+			sudokubox.updateCells($tar);
 			$in.removeClass('fo');
 			$put.hide().find('input').remove();
 		}).focusout(function(){
@@ -74,6 +74,28 @@ SudokuBox.prototype.focusCells=function(r,c,g){
 	return this;
 }
 
+/**
+ * update cells for remove the user entered number,
+ * if user eneter "1" , all the cell for the horizontal line ,
+ * the vertical line and the groups should not exist "1".
+ * @param activeCell , we use the cell's value to update cells.
+ * @return
+ *
+ * @Todo here's a bug if user modify the number twice , it will be incorrect.
+ */
+SudokuBox.prototype.updateCells=function(activeCell){
+	var r=activeCell.attr('r');
+	var c=activeCell.attr('c');
+	var g=activeCell.attr('g');
+	var n=activeCell.find('span').html();
+
+	//remove all the numbers in cell
+	activeCell.find('.mm').remove();
+
+	var $in=$('.in');
+	$in.filter('[r="'+r+'"],[c="'+c+'"],[g="'+g+'"]').find('.mm[m="'+n+'"]').remove();
+
+}
 
 var box=$('.box');
 
@@ -85,14 +107,6 @@ var $in=$('.in');
 var $put=$('.put');
 
 
-function check_1($this){
-	var r=$this.attr('r');
-	var c=$this.attr('c');
-	var g=$this.attr('g');
-	var n=$this.find('span').html();
-	$this.find('.mm').remove();
-	var gg=$in.filter('[r="'+r+'"],[c="'+c+'"],[g="'+g+'"]').find('.mm[m="'+n+'"]').remove();
-}
 function check_2(){
 	var flag = true;
 	$('span').removeClass('red');
@@ -256,7 +270,7 @@ function find_one($this){
 	$this.siblings('span').html($this.attr('m')).addClass('red');
 	$this.siblings('.mm').remove();
 	var p=$this.parent('.in');
-	check_1(p);
+	sudokubox.updateCells(p);
 	$this.remove();
 }
 $('#check_ok2').click(check_2);
