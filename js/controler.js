@@ -88,10 +88,11 @@ SudokuBox.prototype.getCells=function(){
 
 /**
  * we need to hide numbers when user is tpying his number.
+ * This implement is too low-end , that any user should not call this function directly.
  * @param activeCell
  * @return
  */
-SudokuBox.prototype.maskCell=function(activeCell){
+/* private */ SudokuBox.prototype._maskCell=function(activeCell){
 	/**
 	 * we use a div to overlap the cells numbers , and we call it "put"
 	 */
@@ -117,7 +118,7 @@ SudokuBox.prototype.startUserInput=function($tar){
 	    g=$tar.attr('g'),
 	    $in=this.getCells(),
 	    $put=$('.put');
-	sudokubox.maskCell($tar);
+	sudokubox._maskCell($tar);
 	sudokubox.focusCells(r,c,g);
 	$('<input type="text" r="'+r+'" c+"'+c+'" />').appendTo($put).keyup(function(){
 		$this = $(this);
