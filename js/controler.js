@@ -23,29 +23,40 @@ function SudokuBox(context){
 	}
 }
 
+/**
+ * bind cell event after cell is created
+ * @return
+ */
+SudokuBox.prototype.bindCell=function(){
+	var $in=$('.in');
+	var $put=$('.put');
+	$in.click(function(){
+		$tar=$(this);
+		var r=$tar.attr('r');
+		var c=$tar.attr('c');
+		var g=$tar.attr('g');
+		var txt=$tar.css('margin-top');
+		var t=$tar.position().top+parseInt(txt.substr(0,txt.length));
+		var l=$tar.position().left;
+		$put.css({left:l,top:t}).show();
+		fo_in(r,c,g);
+		$('<input type="text" r="'+r+'" c+"'+c+'" />').appendTo($put).keyup(function(){
+			$this = $(this);
+			$in.filter('[r="'+r+'"][c="'+c+'"]').find('span').html($this.val());
+			check_1($tar);
+			clear_input();
+		}).focusout(clear_input).width(20).height(20).focus();
+	});
+}
+
 var box=$('.box');
 
 var sudokubox = new SudokuBox(box);
+sudokubox.bindCell();
+
 
 var $in=$('.in');
 var $put=$('.put');
-$in.click(function(){
-	$tar=$(this);
-	var r=$tar.attr('r');
-	var c=$tar.attr('c');
-	var g=$tar.attr('g');
-	var txt=$tar.css('margin-top');
-	var t=$tar.position().top+parseInt(txt.substr(0,txt.length));
-	var l=$tar.position().left;
-	$put.css({left:l,top:t}).show();
-	fo_in(r,c,g);
-	$('<input type="text" r="'+r+'" c+"'+c+'" />').appendTo($put).keyup(function(){
-		$this = $(this);
-		$in.filter('[r="'+r+'"][c="'+c+'"]').find('span').html($this.val());
-		check_1($tar);
-		clear_input();
-	}).focusout(clear_input).width(20).height(20).focus();
-});
 function fo_in(r,c,g){
 	$in.removeClass('fo');
 	$in.filter('[r="'+r+'"],[c="'+c+'"],[g="'+g+'"]').addClass('fo');
