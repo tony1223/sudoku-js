@@ -36,10 +36,8 @@ SudokuBox.prototype.bindCell=function(){
 		var r=$tar.attr('r');
 		var c=$tar.attr('c');
 		var g=$tar.attr('g');
-		var txt=$tar.css('margin-top');
-		var t=$tar.position().top+parseInt(txt.substr(0,txt.length));
-		var l=$tar.position().left;
-		$put.css({left:l,top:t}).show();
+
+		sudokubox.maskCell($tar);
 		sudokubox.focusCells(r,c,g);
 		$('<input type="text" r="'+r+'" c+"'+c+'" />').appendTo($put).keyup(function(){
 			$this = $(this);
@@ -104,6 +102,25 @@ SudokuBox.prototype.getCells=function(){
 	return $('.in');
 }
 
+/**
+ * we need to hide numbers when user is tpying his number.
+ * @param activeCell
+ * @return
+ */
+SudokuBox.prototype.maskCell=function(activeCell){
+	/**
+	 * we use a div to overlap the cells numbers , and we call it "put"
+	 */
+
+	var txt = activeCell.css('margin-top');
+
+	//use parseInt(xxx , 10)  instead parseInt(xxx) to prevent Octal number issue.
+	var t = activeCell.position().top + parseInt( txt.substr(0,txt.length) , 10);
+	var l = activeCell.position().left;
+	var $put = $('.put');
+	$put.css({left:l,top:t}).show();
+}
+
 var box=$('.box');
 
 var sudokubox = new SudokuBox(box);
@@ -112,10 +129,6 @@ sudokubox.bindCell();
 
 var $in=sudokubox.getCells();
 
-/**
- * we use a div to overlap the cells numbers , and we call it "put"
- */
-var $put=$('.put');
 
 
 function check_2(){
