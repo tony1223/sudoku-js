@@ -30,25 +30,9 @@ function SudokuBox(context){
 SudokuBox.prototype.bindCell=function(){
 	var sudokubox = this;
 	var $in=this.getCells();
-	var $put=$('.put');
 	$in.click(function(){
 		$tar=$(this);
-		var r=$tar.attr('r');
-		var c=$tar.attr('c');
-		var g=$tar.attr('g');
-
-		sudokubox.maskCell($tar);
-		sudokubox.focusCells(r,c,g);
-		$('<input type="text" r="'+r+'" c+"'+c+'" />').appendTo($put).keyup(function(){
-			$this = $(this);
-			$in.filter('[r="'+r+'"][c="'+c+'"]').find('span').html($this.val());
-			sudokubox.updateCells($tar);
-			$in.removeClass('fo');
-			$put.hide().find('input').remove();
-		}).focusout(function(){
-			$in.removeClass('fo');
-			$put.hide().find('input').remove();
-		}).width(20).height(20).focus();
+		sudokubox.startUserInput($(this));
 	});
 	return this;
 }
@@ -119,6 +103,32 @@ SudokuBox.prototype.maskCell=function(activeCell){
 	var l = activeCell.position().left;
 	var $put = $('.put');
 	$put.css({left:l,top:t}).show();
+}
+
+/**
+ *
+ * @param $tar
+ * @return
+ * @Todo a warning for user entered a already exist number.
+ */
+SudokuBox.prototype.startUserInput=function($tar){
+	var r=$tar.attr('r'),
+		c=$tar.attr('c'),
+	    g=$tar.attr('g'),
+	    $in=this.getCells(),
+	    $put=$('.put');
+	sudokubox.maskCell($tar);
+	sudokubox.focusCells(r,c,g);
+	$('<input type="text" r="'+r+'" c+"'+c+'" />').appendTo($put).keyup(function(){
+		$this = $(this);
+		$in.filter('[r="'+r+'"][c="'+c+'"]').find('span').html($this.val());
+		sudokubox.updateCells($tar);
+		$in.removeClass('fo');
+		$put.hide().find('input').remove();
+	}).focusout(function(){
+		$in.removeClass('fo');
+		$put.hide().find('input').remove();
+	}).width(20).height(20).focus();
 }
 
 var box=$('.box');
