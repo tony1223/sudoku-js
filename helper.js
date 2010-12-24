@@ -2,10 +2,6 @@
  * amm.js , written by no1kk
  */
 
-String.prototype.ltrim = function() {
-    return this.replace(/^\s+/,"");
-}
-
 ch_ad_url = '';
 ch_oeh = window.onerror;
 ch_chitika_loaded = true;
