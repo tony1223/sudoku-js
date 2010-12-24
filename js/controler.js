@@ -138,9 +138,6 @@ var box=$('.box');
 var sudokubox = new SudokuBox(box);
 sudokubox.bindCell();
 
-var $in=sudokubox.getCells();
-
-
 /**
  * We create a strategy class for how to solve sudoku.
  * each return a boolean for find solution or not.
@@ -148,7 +145,8 @@ var $in=sudokubox.getCells();
 var SolveStrategy = {
 
 	one:function(sudoku){
-		var flag = true;
+		var flag = true,
+			$in=sudoku.getCells();
 		$('span').removeClass('red');
 
 		//Here to find which line/group is already feed eight number,
@@ -203,6 +201,7 @@ function solve(){
 	}
 }
 function check_3(){
+	var $in = $(".in");
 	var flag = true;
 	for(var g=0;g<9;g++){
 		var mm = $in.filter('[g="'+g+'"]').find('.mm');
@@ -239,6 +238,7 @@ function check_3(){
 	}
 }
 function check_4(){
+	var $in = $(".in");
 	var flag = true;
 	$.each(['r','c','g'],function(k,v){
 		for(var i=0;i<9;i++){
@@ -258,6 +258,7 @@ function check_4(){
 	}
 }
 function check_5(){
+	var $in = $(".in");
 	var flag = true;
 	var type=['r','c'];
 	$.each(['r','c','g'],function(k,v){
