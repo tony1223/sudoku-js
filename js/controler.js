@@ -45,8 +45,12 @@ SudokuBox.prototype.bindCell=function(){
 			$this = $(this);
 			$in.filter('[r="'+r+'"][c="'+c+'"]').find('span').html($this.val());
 			check_1($tar);
-			clear_input();
-		}).focusout(clear_input).width(20).height(20).focus();
+			$in.removeClass('fo');
+			$put.hide().find('input').remove();
+		}).focusout(function(){
+			$in.removeClass('fo');
+			$put.hide().find('input').remove();
+		}).width(20).height(20).focus();
 	});
 	return this;
 }
@@ -80,10 +84,7 @@ sudokubox.bindCell();
 var $in=$('.in');
 var $put=$('.put');
 
-function clear_input(){
-	$in.removeClass('fo');
-	$put.hide().find('input').remove();
-}
+
 function check_1($this){
 	var r=$this.attr('r');
 	var c=$this.attr('c');
