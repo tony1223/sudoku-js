@@ -29,7 +29,7 @@ function SudokuBox(context){
  */
 SudokuBox.prototype.bindCell=function(){
 	var sudokubox = this;
-	var $in=$('.in');
+	var $in=this.getCells();
 	var $put=$('.put');
 	$in.click(function(){
 		$tar=$(this);
@@ -67,7 +67,7 @@ SudokuBox.prototype.bindCell=function(){
  * @return SudukuBox
  */
 SudokuBox.prototype.focusCells=function(r,c,g){
-	var $in=$('.in');
+	var $in=this.getCells();
 	var $put=$('.put');
 	$in.removeClass('fo');
 	$in.filter('[r="'+r+'"],[c="'+c+'"],[g="'+g+'"]').addClass('fo');
@@ -92,9 +92,16 @@ SudokuBox.prototype.updateCells=function(activeCell){
 	//remove all the numbers in cell
 	activeCell.find('.mm').remove();
 
-	var $in=$('.in');
-	$in.filter('[r="'+r+'"],[c="'+c+'"],[g="'+g+'"]').find('.mm[m="'+n+'"]').remove();
+	this.getCells().filter('[r="'+r+'"],[c="'+c+'"],[g="'+g+'"]').find('.mm[m="'+n+'"]').remove();
 
+}
+
+/**
+ * get all the cell contrains
+ * @return
+ */
+SudokuBox.prototype.getCells=function(){
+	return $('.in');
 }
 
 var box=$('.box');
@@ -103,7 +110,7 @@ var sudokubox = new SudokuBox(box);
 sudokubox.bindCell();
 
 
-var $in=$('.in');
+var $in=sudokubox.getCells();
 var $put=$('.put');
 
 
