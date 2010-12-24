@@ -50,7 +50,6 @@ SudokuBox.prototype.bindCell=function(){
  */
 SudokuBox.prototype.focusCells=function(r,c,g){
 	var $in=this.getCells();
-	var $put=$('.put');
 	$in.removeClass('fo');
 	$in.filter('[r="'+r+'"],[c="'+c+'"],[g="'+g+'"]').addClass('fo');
 	return this;
