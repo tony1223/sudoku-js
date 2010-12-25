@@ -13,13 +13,18 @@ function SudokuBox(context, opts) {
 	// add every number helper (1-9) each cell here.
 
 	var out = [] ;
+	if(SudokuBox.uuid == null ) SudokuBox.uuid = 0;
+
+	this.uuid = "sud" + (++ SudokuBox.uuid);
+	this.context = context;
+
 	for ( var i = 0; i < 9; i++) {
 		for ( var j = 0; j < 9; j++) {
 			var c = i;
 			var r = j;
 			var g = Math.floor(i / 3) * 3 + Math.floor(j / 3);
 			out.push(
-					'<div class="in c' , c , ' r' , r , '" r="' , r , '" c="'
+					'<div id="',this.uuid,'-',r,'-',c,'" class="in c' , c , ' r' , r , '" r="' , r , '" c="'
 					, c , '" g="' , g , '">','<span></span>');
 
 			for ( var m = 1; m <= 9; m++) {
@@ -162,7 +167,7 @@ SudokuBox.prototype = {
 	 * return selected cell as jQuery context.
 	 */
 	findCell : function(r, c) {
-		return this.getCells().filter('[r="' + r + '"][c="' + c + '"]');
+		return this.context.find("#"+this.uuid+'-'+r+'-'+c);
 	},
 	/**
 	 * for input a word
