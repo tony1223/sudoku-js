@@ -60,7 +60,7 @@ var SolveStrategy = {
 							'.mm[m="' + m + '"]');
 					if (target.length > 0) {
 						flag = false;
-						target.remove();
+						sudoku.rmoveMM(target);
 					}
 				}
 				if (t_c.length == p.length) {
@@ -68,7 +68,7 @@ var SolveStrategy = {
 							'.mm[m="' + m + '"]');
 					if (target.length > 0) {
 						flag = false;
-						target.remove();
+						sudoku.rmoveMM(target);
 					}
 				}
 			}
@@ -118,7 +118,7 @@ var SolveStrategy = {
 									.not(mm).not(nn);
 							if (target.length > 0) {
 								flag = false;
-								target.remove();
+								sudoku.rmoveMM(target);
 							}
 						}
 					}
@@ -143,7 +143,7 @@ function check_4_1(tmp) {
 					&& mm.eq(1).parent().get(0) == nn.eq(1).parent().get(0)) {
 				var target = mm.parent().find('.mm').not(nn).not(mm);
 				if (target.length > 0) {
-					target.remove();
+					sudoku.rmoveMM(target);
 					flag = false;
 				}
 			}
@@ -168,7 +168,7 @@ function check_4_2(tmp) {
 				var target = tmp.find('.mm').filter(
 						'[m="' + a + '"],[m="' + b + '"]').not(mm).not(nn);
 				if (target.length > 0) {
-					target.remove();
+					sudoku.rmoveMM(target);
 					flag = false;
 				}
 			}
