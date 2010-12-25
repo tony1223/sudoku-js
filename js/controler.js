@@ -21,6 +21,10 @@ sudokubox.bindCell();
 function solve(){
 	//remove old result
 	$('span').removeClass('red');
+	_solve();
+}
+
+function _solve(){
 	var flag = SolveStrategy.one(sudokubox);
 	if(SolveStrategy.one(sudokubox)){ //if nothing changes
 		//if there not any existing empty cell ,
@@ -32,18 +36,22 @@ function solve(){
 
 		if(SolveStrategy.group(sudokubox)){
 			if(SolveStrategy.check_4(sudokubox)){
-				check_5();
+				if(check_5()){
+					$('.info').html('結束');
+				}else{
+					_solve();
+				}
 			}else{
-				solve();
+				_solve();
 			}
 		}else{
-			solve();
+			_solve();
 		}
 
 	}else{
-		// if it change something , we just run it again after.
+		// if it change something , we just run it again after and run again.
 		// because if you fill a cell , it will effect other cell's number(mn).
-		setTimeout(solve,500);
+		setTimeout(_solve,500);
 	}
 }
 $('#check_ok2').click(solve);

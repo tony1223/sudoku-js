@@ -18,7 +18,7 @@ var SolveStrategy = {
 				for(var j = 1 ; j <= 9 ; j++){
 					var tmp = mm.filter('[m="' + j + '"]');
 					if( tmp.length == 1 ){
-						utils.find_one(tmp);
+						utils.find_one(sudoku,tmp);
 						flag = false;
 					}
 				}
@@ -29,7 +29,7 @@ var SolveStrategy = {
 		$in.has('.mm').each(function(){
 			var mm=$(this).find('.mm');
 			if(mm.length==1){
-				utils.find_one(mm);
+				utils.find_one(sudoku,mm);
 				flag = false;
 			}
 		});
@@ -73,7 +73,7 @@ var SolveStrategy = {
 		}
 		return flag;
 	},
-	check_4:function(suduku){
+	check_4:function(sudoku){
 		var flag = true,
 	    	$in=sudoku.getCells();
 		$.each(['r','c','g'],function(k,v){
@@ -87,6 +87,36 @@ var SolveStrategy = {
 				}
 			}
 		});
+
+		return flag;
+	},
+	check_5:function(sudoku){
+		var flag = true,
+			$in=sudoku.getCells();;
+		var type=['r','c'];
+		$.each(['r','c','g'],function(k,v){
+			for(var a=0;a<8;a++){
+				for(var m=1;m<=9;m++){
+					var mm = $in.filter('['+v+'="'+a+'"]').find('.mm[m="'+m+'"]');
+					if(mm.length != 2)continue;
+					for(var b=a+1;b<9;b++){
+						var nn = $in.filter('['+v+'="'+b+'"]').find('.mm[m="'+m+'"]');
+						if(nn.length != 2)continue;
+						var g=(v=='r')?'c':'r';
+						var c = mm.eq(0).parent().attr(g);
+						var d = mm.eq(1).parent().attr(g);
+						if(nn.eq(0).parent().attr(g) ==c && nn.eq(1).parent().attr(g) == d){
+							var target = $in.filter('['+g+'="'+c+'"],['+g+'="'+d+'"]').find('.mm[m="'+m+'"]').not(mm).not(nn);
+							if(target.length > 0){
+								flag=false;
+								target.remove();
+							}
+						}
+					}
+				}
+			}
+		});
+		return flag;
 	}
 }
 
@@ -97,74 +127,19 @@ var utils={
 	 * @param activeCell the target cell
 	 * @return
 	 */
-	find_one:function(activeCell){
-		activeCell.siblings('span').html(activeCell.attr('m')).addClass('red');
-		activeCell.siblings('.mm').remove();
-		var p=activeCell.parent('.in');
-		sudokubox.updateCells(p);
-		activeCell.remove();
+	find_one:function(sudukubox,activeMn){
+		var activeCell = activeMn.parent();
+		//here failed the test
+
+		//@Todo:check why mn's parent could be null
+		var value = activeMn.attr('m');
+		activeMn.siblings('.mm').remove();
+		sudukubox.input(activeCell.attr("r"),activeCell.attr("c"),value,true);
+		activeMn.remove();
 	}
 
 }
 
-
-/**
- * determine the group.
- * @return
- */
-
-function check_4(){
-	var $in = $(".in");
-	var flag = true;
-	$.each(['r','c','g'],function(k,v){
-		for(var i=0;i<9;i++){
-			var tmp = $in.filter('['+v+'="'+i+'"]').has('.mm');
-			if(!check_4_1(tmp)){
-				flag = false;
-			}
-			if(!check_4_2(tmp)){
-				flag = false;
-			}
-		}
-	});
-	if(flag){
-		check_5();
-	}else{
-		solve();
-	}
-}
-function check_5(){
-	var $in = $(".in");
-	var flag = true;
-	var type=['r','c'];
-	$.each(['r','c','g'],function(k,v){
-		for(var a=0;a<8;a++){
-			for(var m=1;m<=9;m++){
-				var mm = $in.filter('['+v+'="'+a+'"]').find('.mm[m="'+m+'"]');
-				if(mm.length != 2)continue;
-				for(var b=a+1;b<9;b++){
-					var nn = $in.filter('['+v+'="'+b+'"]').find('.mm[m="'+m+'"]');
-					if(nn.length != 2)continue;
-					var g=(v=='r')?'c':'r';
-					var c = mm.eq(0).parent().attr(g);
-					var d = mm.eq(1).parent().attr(g);
-					if(nn.eq(0).parent().attr(g) ==c && nn.eq(1).parent().attr(g) == d){
-						var target = $in.filter('['+g+'="'+c+'"],['+g+'="'+d+'"]').find('.mm[m="'+m+'"]').not(mm).not(nn);
-						if(target.length > 0){
-							flag=false;
-							target.remove();
-						}
-					}
-				}
-			}
-		}
-	});
-	if(flag){
-		$('.info').html('結束');
-	}else{
-		solve();
-	}
-}
 function check_4_1(tmp){
 	var flag = true;
 	for(var m=1;m<9;m++){

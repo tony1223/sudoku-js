@@ -143,11 +143,15 @@ SudokuBox.prototype.findCell=function(r,c){
 /**
  * for input a word
  */
-SudokuBox.prototype.input=function(r,c,value){
-	var activeCell = this.findCell(r,c);
+SudokuBox.prototype.input=function(r, c , value ,solved ){
+	var activeCell = this.findCell(r,c),
+		span = activeCell.find('span');
 
-	activeCell.find('span').html(value);
+	span.html(value);
 	this.updateCells(activeCell);
+
+	if(solved)
+		span.addClass('red');
 
 	if($.isFunction(this._doAfterInput)) //a callback for user customize event
 		this._doAfterInput.apply(this,[r,c,value]);
