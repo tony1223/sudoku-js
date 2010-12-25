@@ -4,14 +4,13 @@
 
 
 var sudokubox2 = new SudokuBox( $('.box'), {
-	// a log for easy to build a test case
-		afterInput : function(r, c, value) {
-			$("#gen-result").val(
-					$("#gen-result").val() + "\nsudokubox.input(" + r + ", "
-							+ c + ", " + value + ");");
-		}
-	});
-
+// a log for easy to build a test case
+	afterInput : function(r, c, value) {
+		$("#gen-result").val(
+				$("#gen-result").val() + "\nsudokubox.input(" + r + ", "
+						+ c + ", " + value + ");");
+	}
+});
 /**
  * Start to resolve the soduku. (The event handler for the button)
  *
