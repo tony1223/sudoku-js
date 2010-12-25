@@ -17,7 +17,7 @@ var SolveStrategy = {
 				for ( var j = 1; j <= 9; j++) {
 					var tmp = mm.filter('[m="' + j + '"]');
 					if (tmp.length == 1) {
-						utils.find_one(sudoku, tmp);
+						sudoku.inputByMn(tmp, true);
 						flag = false;
 					}
 				}
@@ -28,7 +28,7 @@ var SolveStrategy = {
 		$in.has('.mm').each(function() {
 			var mm = $(this).find('.mm');
 			if (mm.length == 1) {
-				utils.find_one(sudoku, mm);
+				sudoku.inputByMn(mm, true);
 				flag = false;
 			}
 		});
@@ -127,23 +127,6 @@ var SolveStrategy = {
 		});
 		return flag;
 	}
-}
-
-var utils = {
-	/**
-	 * update the cell value with the first mn value and remove it, and updated
-	 * relative cells .
-	 *
-	 * @param activeCell
-	 *            the target cell
-	 * @return
-	 */
-	find_one : function(sudukubox, activeMn) {
-		var activeCell = activeMn.parent();
-		var value = activeMn.attr('m');
-		sudukubox.input(activeCell.attr("r"), activeCell.attr("c"), value, true);
-	}
-
 }
 
 function check_4_1(tmp) {

@@ -181,5 +181,17 @@ SudokuBox.prototype = {
 			this._doAfterInput.apply(this, [ r, c, value ]);
 
 		return this;
+	},
+	/**
+	 * input the cell value with the mn value
+	 *
+	 * @param mn
+	 *           the target cell's mn
+	 * @return
+	 */
+	inputByMn : function(mn , solved){
+		var activeCell = mn.parent(),
+			value = mn.attr('m');
+		this.input(activeCell.attr("r"), activeCell.attr("c"), value, solved);
 	}
 };
