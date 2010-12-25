@@ -245,6 +245,8 @@ function check_4_2(tmp){
  * @return
  */
 function solve(){
+	//remove old result
+	$('span').removeClass('red');
 	var flag = SolveStrategy.one(sudokubox);
 	if(SolveStrategy.one(sudokubox)){ //if nothing changes
 		//if there not any existing empty cell ,

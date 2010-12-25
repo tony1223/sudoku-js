@@ -7,7 +7,6 @@ var SolveStrategy = {
 	one:function(sudoku){ //original check_1
 		var flag = true,
 			$in=sudoku.getCells();
-		$('span').removeClass('red');
 
 		//Here to find which line/group is already feed eight number,
 		//and it will auto fill the last number for it .
