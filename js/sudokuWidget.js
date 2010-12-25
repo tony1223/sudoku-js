@@ -4,11 +4,22 @@
 
 /**
  * init for sudoku box
+ * @param opts
+ *  <pre>
+ *    Allowed options:
+ *    Events: (All the event handler's "this" is SudokuBox.)
+ *    	afterInput , trigger after use input , function(r,c,value)
+ *		onError , trigger when user input error , function(userInputValue, aryAllowValues)
+ *
+ * 	</pre>
  */
 function SudokuBox(context, opts) {
 	var that = this , out = [];
-	if (opts && opts.afterInput)
-		this._doAfterInput = opts.afterInput;
+	if (opts){
+		if(opts.afterInput) this._doAfterInput = opts.afterInput;
+		if(opts.onError) this.onError = opts.onError;
+	}
+
 
 	// add every number helper (1-9) each cell here.
 
@@ -43,11 +54,34 @@ function SudokuBox(context, opts) {
 	this._put =this.find(".put");
 
 	this._put.find("input").keyup(function() {
-		var r = that._current.attr('r'),
-			c = that._current.attr('c');
-		that.input(r, c, $(this).val());
+		var current =  that._current,
+			r = current.attr('r'),
+			c = current.attr('c'),
+			value = $(this).val() ,
+			allows =[] ,
+			verify = false;
+
+		current.find(".mm").each(function(){
+			var currentVal = $(this).attr("m");
+			allows.push(currentVal);
+
+			if(parseInt(currentVal,10) == parseInt(value,10))
+				verify = true;
+
+		});
+
+		if(verify){
+			that.input(r, c, $(this).val());
+		}else{
+			// a callback for user customize event
+			if ($.isFunction(this.onError))
+				this.onError.apply(this, [ value , allows ]);
+			else
+				alert("input [" + value + "] error , only allow " + allows );
+		}
 		this.value = ""; // clear value after typing
 		that._put.hide();
+
 	}).focusout(function() {
 		this._current = null ;
 		that._put.hide();
@@ -129,7 +163,7 @@ SudokuBox.prototype = {
 	},
 
 	/**
-	 * get all the cell contrains
+	 * get all the cell
 	 *
 	 * @return
 	 */
@@ -190,8 +224,8 @@ SudokuBox.prototype = {
 		if (solved)
 			span.addClass('red');
 
-		if ($.isFunction(this._doAfterInput)) // a callback for user customize
-			// event
+		// a callback for user customize event
+		if ($.isFunction(this._doAfterInput))
 			this._doAfterInput.apply(this, [ r, c, value ]);
 
 		return this;
