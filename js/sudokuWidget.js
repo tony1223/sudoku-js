@@ -12,12 +12,10 @@ function SudokuBox(context, opts) {
 
 	// add every number helper (1-9) each cell here.
 
-	var out = [] ;
-	if(SudokuBox.uuid == null ) SudokuBox.uuid = 0;
-
 	this.uuid = "sud" + (++ SudokuBox.uuid);
 	this.context = context;
 
+	var out = [] ;
 	for ( var i = 0; i < 9; i++) {
 		for ( var j = 0; j < 9; j++) {
 			var c = i;
@@ -45,6 +43,14 @@ function SudokuBox(context, opts) {
 	this.bindCell();
 }
 
+/**
+ * static variables / methods
+ */
+SudokuBox.uuid = 0;
+
+/**
+ * isntance methods
+ */
 SudokuBox.prototype = {
 	/**
 	 * bind cell event after cell is created
