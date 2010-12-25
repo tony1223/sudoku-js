@@ -11,26 +11,28 @@ function SudokuBox(context, opts) {
 		this._doAfterInput = opts.afterInput;
 
 	// add every number helper (1-9) each cell here.
+
+	var out = [] ;
 	for ( var i = 0; i < 9; i++) {
 		for ( var j = 0; j < 9; j++) {
 			var c = i;
 			var r = j;
 			var g = Math.floor(i / 3) * 3 + Math.floor(j / 3);
-			var one = $(
-					'<div class="in c' + c + ' r' + r + '" r="' + r + '" c="'
-							+ c + '" g="' + g + '"></div>').append(
-					'<span></span>').appendTo(context);
+			out.push(
+					'<div class="in c' , c , ' r' , r , '" r="' , r , '" c="'
+					, c , '" g="' , g , '">','<span></span>');
+
 			for ( var m = 1; m <= 9; m++) {
 				var t = 3 + Math.floor((m - 1) / 3) * 12;
 				var l = 3 + Math.floor((m - 1) % 3) * 12;
-				$('<div class="mm" m="' + m + '">' + m + '</div>')
-						.appendTo(one).css( {
-							top : t,
-							left : l
-						});
+				out.push('<div class="mm" m="' , m , '" style="top:',t,
+						'px;left:',l,'px">' ,m , '</div>')
 			}
+
+			out.push('</div>');
 		}
 	}
+	context.append(out.join(""));
 	context.append("<div class='put' style='display:none;'></div>");
 	this.bindCell();
 }
