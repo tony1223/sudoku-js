@@ -5,7 +5,7 @@
 var SolveStrategy = {
 
 	one : function(sudoku) { // original check_1
-		var flag = true, $in = sudoku.getCells();
+		var flag = true;
 
 		// Here to find which line/group is already feed eight number,
 		// and it will auto fill the last number for it .
@@ -25,7 +25,7 @@ var SolveStrategy = {
 		});
 		// If any mn is only one , that means it's a solution,
 		// it's still a tricky things. XD
-		$in.has('.mm').each(function() {
+		sudoku.getCells().has('.mm').each(function() {
 			var mm = $(this).find('.mm');
 			if (mm.length == 1) {
 				sudoku.inputByMn(mm, true);
