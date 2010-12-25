@@ -33,8 +33,10 @@ function SudokuBox(context, opts) {
 		}
 	}
 	context.append(out.join(""));
-	this._cells = $(".in");
 	context.append("<div class='put' style='display:none;'></div>");
+
+	this._cells = $(".in",context);
+	this._put = $(".put",context);
 	this.bindCell();
 }
 
@@ -129,7 +131,7 @@ SudokuBox.prototype = {
 			t = activeCell.position().top + parseInt(txt, 10),
 			l = activeCell.position().left;
 
-		$('.put').css( {
+		this._put.css( {
 			left : l,
 			top : t
 		}).show();
@@ -142,17 +144,17 @@ SudokuBox.prototype = {
 	 * @Todo a warning for user entered a already exist number.
 	 */
 	startUserInput : function($tar) {
-		var r = $tar.attr('r'), c = $tar.attr('c'), $in = this.getCells(), $put = $('.put'), that = this;
+		var r = $tar.attr('r'), c = $tar.attr('c'), $in = this.getCells(), that = this;
 		this._maskCell($tar);
 		this.focusCells($tar);
-		$('<input type="text" r="' + r + '" c+"' + c + '" />').appendTo($put)
+		$('<input type="text" r="' + r + '" c+"' + c + '" />').appendTo(this._put)
 				.keyup(function() {
 					that.input(r, c, $(this).val());
 					$in.removeClass('fo');
-					$put.hide().find('input').remove();
+					that._put.hide().find('input').remove();
 				}).focusout(function() {
 					$in.removeClass('fo');
-					$put.hide().find('input').remove();
+					that._put.hide().find('input').remove();
 				}).width(20).height(20).focus();
 		return this;
 	},
