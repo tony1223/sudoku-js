@@ -140,14 +140,8 @@ var utils = {
 	 */
 	find_one : function(sudukubox, activeMn) {
 		var activeCell = activeMn.parent();
-		// here failed the test
-
-		// @Todo:check why mn's parent could be null
 		var value = activeMn.attr('m');
-		activeMn.siblings('.mm').remove();
-		sudukubox
-				.input(activeCell.attr("r"), activeCell.attr("c"), value, true);
-		activeMn.remove();
+		sudukubox.input(activeCell.attr("r"), activeCell.attr("c"), value, true);
 	}
 
 }
