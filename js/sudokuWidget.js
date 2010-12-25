@@ -33,6 +33,7 @@ function SudokuBox(context, opts) {
 		}
 	}
 	context.append(out.join(""));
+	this._cells = $(".in");
 	context.append("<div class='put' style='display:none;'></div>");
 	this.bindCell();
 }
@@ -108,7 +109,7 @@ SudokuBox.prototype = {
 	 * @return
 	 */
 	getCells : function() {
-		return $('.in');
+		return this._cells;
 	},
 	/**
 	 * we need to hide numbers when user is tpying his number. This implement is too
