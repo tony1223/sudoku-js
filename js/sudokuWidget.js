@@ -266,10 +266,26 @@ SudokuBox.prototype = {
 		return this;
 	},
 	/**
+	 * cancel input state.
+	 *
+	 * @param r
+	 * @param c
+	 * @return
+	 */
+	cancelInput : function(r, c) {
+	},
+	/**
 	 * find in the sudoku context
 	 */
 	find : function(selector) {
 		return this.context.find(selector);
+	},
+	/**
+	 *  @param type : r,c,g
+	 *  @param num the value of type
+	 */
+	findByType : function(type,num) {
+		return this.context.find('.' + type + ''+ num);
 	},
 	/**
 	 * input the cell value with the mn value

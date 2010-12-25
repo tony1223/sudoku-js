@@ -12,7 +12,7 @@ var SolveStrategy = {
 		// Here's a bit too tricky for me. :P
 		$.each( [ 'r', 'c', 'g' ], function(k, v) {
 			for ( var i = 0; i < 9; i++) {
-				var mm = sudoku.find('.' + v + i + '').find('.mm');
+				var mm = sudoku.findByType( v , i ).find('.mm');
 
 				for ( var j = 1; j <= 9; j++) {
 					var tmp = mm.filter('[m="' + j + '"]');
@@ -36,10 +36,10 @@ var SolveStrategy = {
 		return flag;
 	},
 	group : function(sudoku) { // original check_3
-		var flag = true, $in = sudoku.getCells();
+		var flag = true ;
 		// iterate the 9 groups .
 		for ( var g = 0; g < 9; g++) {
-			var mm = $in.filter('[g="' + g + '"]').find('.mm');
+			var mm = sudoku.findByType( "g" , g ).find('.mm');
 
 			// if the group is already solved , just skip it
 			if (mm.length == 0)
@@ -56,7 +56,7 @@ var SolveStrategy = {
 				var t_r = p.filter('[r="' + r + '"]');
 				var t_c = p.filter('[c="' + c + '"]');
 				if (t_r.length == p.length) {
-					var target = $in.filter('[r="' + r + '"]').not(p).find(
+					var target = sudoku.findByType( "r" , r ).not(p).find(
 							'.mm[m="' + m + '"]');
 					if (target.length > 0) {
 						flag = false;
@@ -64,7 +64,7 @@ var SolveStrategy = {
 					}
 				}
 				if (t_c.length == p.length) {
-					var target = $in.filter('[c="' + c + '"]').not(p).find(
+					var target = sudoku.findByType( "c" , c ).not(p).find(
 							'.mm[m="' + m + '"]');
 					if (target.length > 0) {
 						flag = false;
@@ -76,10 +76,10 @@ var SolveStrategy = {
 		return flag;
 	},
 	check_4 : function(sudoku) {
-		var flag = true, $in = sudoku.getCells();
+		var flag = true;
 		$.each( [ 'r', 'c', 'g' ], function(k, v) {
 			for ( var i = 0; i < 9; i++) {
-				var tmp = $in.filter('[' + v + '="' + i + '"]').has('.mm');
+				var tmp = sudoku.findByType( v , i ).has('.mm');
 				if (!check_4_1(tmp)) {
 					flag = false;
 				}
@@ -92,18 +92,18 @@ var SolveStrategy = {
 		return flag;
 	},
 	check_5 : function(sudoku) {
-		var flag = true, $in = sudoku.getCells();
+		var flag = true;
 		;
 		var type = [ 'r', 'c' ];
 		$.each( [ 'r', 'c', 'g' ], function(k, v) {
 			for ( var a = 0; a < 8; a++) {
 				for ( var m = 1; m <= 9; m++) {
-					var mm = $in.filter('[' + v + '="' + a + '"]').find(
+					var mm =  sudoku.findByType( v , a ).find(
 							'.mm[m="' + m + '"]');
 					if (mm.length != 2)
 						continue;
 					for ( var b = a + 1; b < 9; b++) {
-						var nn = $in.filter('[' + v + '="' + b + '"]').find(
+						var nn =  sudoku.findByType( v , b ).find(
 								'.mm[m="' + m + '"]');
 						if (nn.length != 2)
 							continue;
@@ -112,9 +112,9 @@ var SolveStrategy = {
 						var d = mm.eq(1).parent().attr(g);
 						if (nn.eq(0).parent().attr(g) == c
 								&& nn.eq(1).parent().attr(g) == d) {
-							var target = $in.filter(
-									'[' + g + '="' + c + '"],[' + g + '="' + d
-											+ '"]').find('.mm[m="' + m + '"]')
+							var target = sudoku.find(
+									'.' + g + '' + c + ',.' + g + '' + d
+											+ '"').find('.mm[m="' + m + '"]')
 									.not(mm).not(nn);
 							if (target.length > 0) {
 								flag = false;
