@@ -123,15 +123,13 @@ SudokuBox.prototype = {
 		/**
 		 * we use a div to overlap the cells numbers , and we call it "put"
 		 */
+		var txt = (activeCell.css('margin-top').replace(/px/gi,"")),
+			// use parseInt(xxx , 10) instead parseInt(xxx)
+			// to prevent Octal number issue.
+			t = activeCell.position().top + parseInt(txt, 10),
+			l = activeCell.position().left;
 
-		var txt = activeCell.css('margin-top');
-
-		// use parseInt(xxx , 10) instead parseInt(xxx) to prevent Octal number
-		// issue.
-		var t = activeCell.position().top + parseInt(txt.substr(0, txt.length), 10);
-		var l = activeCell.position().left;
-		var $put = $('.put');
-		$put.css( {
+		$('.put').css( {
 			left : l,
 			top : t
 		}).show();
