@@ -1,6 +1,6 @@
 /**
  * We create a strategy class for how to solve sudoku.
- * each return a boolean for find solution or not.
+ * each return a boolean for finding solution or not.
  */
 var SolveStrategy = {
 
@@ -72,6 +72,21 @@ var SolveStrategy = {
 			}
 		}
 		return flag;
+	},
+	check_4:function(suduku){
+		var flag = true,
+	    	$in=sudoku.getCells();
+		$.each(['r','c','g'],function(k,v){
+			for(var i=0;i<9;i++){
+				var tmp = $in.filter('['+v+'="'+i+'"]').has('.mm');
+				if(!check_4_1(tmp)){
+					flag = false;
+				}
+				if(!check_4_2(tmp)){
+					flag = false;
+				}
+			}
+		});
 	}
 }
 

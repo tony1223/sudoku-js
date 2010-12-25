@@ -157,7 +157,11 @@ function solve(){
 		}
 
 		if(SolveStrategy.group(sudokubox)){
-			check_4();
+			if(SolveStrategy.check_4(sudokubox)){
+				check_5();
+			}else{
+				solve();
+			}
 		}else{
 			solve();
 		}
