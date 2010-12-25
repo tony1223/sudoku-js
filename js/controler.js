@@ -122,9 +122,7 @@ SudokuBox.prototype.startUserInput=function($tar){
 	this._maskCell($tar);
 	this.focusCells($tar);
 	$('<input type="text" r="'+r+'" c+"'+c+'" />').appendTo($put).keyup(function(){
-		$this = $(this);
-		$in.filter('[r="'+r+'"][c="'+c+'"]').find('span').html($this.val());
-		sudokubox.updateCells($tar);
+		sudokubox.input(r, c, $(this).val());
 		$in.removeClass('fo');
 		$put.hide().find('input').remove();
 	}).focusout(function(){
@@ -132,6 +130,22 @@ SudokuBox.prototype.startUserInput=function($tar){
 		$put.hide().find('input').remove();
 	}).width(20).height(20).focus();
 }
+
+/**
+ * return selected cell as jQuery context.
+ */
+SudokuBox.prototype.findCell=function(r,c){
+	return this.getCells().filter('[r="'+r+'"][c="'+c+'"]');
+}
+/**
+ * for input a word
+ */
+SudokuBox.prototype.input=function(r,c,value){
+	var activeCell = this.findCell(r,c);
+	activeCell.find('span').html(value);
+	sudokubox.updateCells(activeCell);
+}
+
 
 var box=$('.box');
 
