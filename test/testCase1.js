@@ -1,4 +1,5 @@
 
+(function(sudokubox){
 sudokubox.input(0, 0, 4);
 sudokubox.input(0, 2, 8);
 sudokubox.input(0, 4, 9);
@@ -44,3 +45,4 @@ sudokubox.input(8, 3, 1);
 sudokubox.input(8, 4, 8);
 sudokubox.input(8, 6, 3);
 sudokubox.input(8, 8, 7);
+})(sudokubox2);

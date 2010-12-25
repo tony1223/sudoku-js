@@ -31,6 +31,7 @@ function SudokuBox(context, opts) {
 			}
 		}
 	}
+	this.bindCell();
 }
 
 /**
