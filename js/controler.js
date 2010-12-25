@@ -2,9 +2,8 @@
  * The controller for main.html We mean a controller
  */
 
-var box = $('.box');
 
-var sudokubox = new SudokuBox(box, {
+var sudokubox2 = new SudokuBox( $('.box'), {
 	// a log for easy to build a test case
 		afterInput : function(r, c, value) {
 			$("#gen-result").val(
@@ -12,7 +11,6 @@ var sudokubox = new SudokuBox(box, {
 							+ c + ", " + value + ");");
 		}
 	});
-sudokubox.bindCell();
 
 /**
  * Start to resolve the soduku. (The event handler for the button)
@@ -26,8 +24,8 @@ function solve() {
 }
 
 function _solve() {
-	var flag = SolveStrategy.one(sudokubox);
-	if (SolveStrategy.one(sudokubox)) { // if nothing changes
+	var flag = SolveStrategy.one(sudokubox2);
+	if (SolveStrategy.one(sudokubox2)) { // if nothing changes
 		// if there not any existing empty cell ,
 		// it means game is over now.
 		if ($('.mm').length == 0) {
@@ -35,8 +33,8 @@ function _solve() {
 			return;
 		}
 
-		if (SolveStrategy.group(sudokubox)) {
-			if (SolveStrategy.check_4(sudokubox)) {
+		if (SolveStrategy.group(sudokubox2)) {
+			if (SolveStrategy.check_4(sudokubox2)) {
 				if (check_5()) {
 					$('.info').html('結束');
 				} else {
