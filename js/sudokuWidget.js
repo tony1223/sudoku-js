@@ -26,7 +26,7 @@ function SudokuBox(context, opts) {
 				var t = 3 + Math.floor((m - 1) / 3) * 12;
 				var l = 3 + Math.floor((m - 1) % 3) * 12;
 				out.push('<div class="mm" m="' , m , '" style="top:',t,
-						'px;left:',l,'px">' ,m , '</div>')
+						'px;left:',l,'px">' ,m , '</div>');
 			}
 
 			out.push('</div>');
