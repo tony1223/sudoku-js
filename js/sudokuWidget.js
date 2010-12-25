@@ -22,7 +22,7 @@ function SudokuBox(context, opts) {
 			var r = j;
 			var g = Math.floor(i / 3) * 3 + Math.floor(j / 3);
 			out.push(
-					'<div id="',this.uuid,'-',r,'-',c,'" class="in c' , c , ' r' , r , '" r="' , r , '" c="'
+					'<div id="',this.uuid,'-',r,'-',c,'" class="in c' , c , ' r' , r , ' g',g,'" r="' , r , '" c="'
 					, c , '" g="' , g , '">','<span></span>');
 
 			for ( var m = 1; m <= 9; m++) {
@@ -114,7 +114,7 @@ SudokuBox.prototype = {
 				.attr('g');
 
 		return this.getCells().filter(
-				'[r="' + r + '"],[c="' + c + '"],[g="' + g + '"]');
+				'.r' + r + ',.c' + c + ',.g' + g );
 	},
 
 	/**
