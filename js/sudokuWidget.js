@@ -31,6 +31,7 @@ function SudokuBox(context, opts) {
 			}
 		}
 	}
+	context.append("<div class='put' style='display:none;'></div>");
 	this.bindCell();
 }
 

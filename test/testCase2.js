@@ -1,0 +1,33 @@
+
+(function(sudokubox){
+	sudokubox.input(0, 3, 4);
+	sudokubox.input(0, 5, 6);
+	sudokubox.input(0, 6, 9);
+	sudokubox.input(0, 7, 7);
+	sudokubox.input(1, 0, 5);
+	sudokubox.input(1, 3, 2);
+	sudokubox.input(1, 7, 3);
+	sudokubox.input(2, 1, 9);
+	sudokubox.input(2, 4, 8);
+	sudokubox.input(2, 5, 7);
+	sudokubox.input(2, 6, 1);
+	sudokubox.input(3, 0, 2);
+	sudokubox.input(3, 1, 1);
+	sudokubox.input(3, 2, 3);
+	sudokubox.input(3, 4, 5);
+	sudokubox.input(5, 4, 9);
+	sudokubox.input(5, 6, 8);
+	sudokubox.input(5, 7, 6);
+	sudokubox.input(5, 8, 2);
+	sudokubox.input(6, 2, 1);
+	sudokubox.input(6, 3, 9);
+	sudokubox.input(6, 4, 2);
+	sudokubox.input(6, 7, 8);
+	sudokubox.input(7, 1, 6);
+	sudokubox.input(7, 5, 4);
+	sudokubox.input(7, 8, 3);
+	sudokubox.input(8, 1, 5);
+	sudokubox.input(8, 2, 4);
+	sudokubox.input(8, 3, 1);
+	sudokubox.input(8, 5, 3);
+})(sudokubox2);
