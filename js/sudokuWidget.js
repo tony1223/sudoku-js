@@ -6,7 +6,7 @@
  * init for sudoku box
  */
 function SudokuBox(context, opts) {
-
+	var that = this , out = [];
 	if (opts && opts.afterInput)
 		this._doAfterInput = opts.afterInput;
 
@@ -15,7 +15,6 @@ function SudokuBox(context, opts) {
 	this.uuid = "sud" + (++ SudokuBox.uuid);
 	this.context = context;
 
-	var out = [] ;
 	for ( var i = 0; i < 9; i++) {
 		for ( var j = 0; j < 9; j++) {
 			var c = i;
@@ -36,10 +35,25 @@ function SudokuBox(context, opts) {
 		}
 	}
 	context.append(out.join(""));
-	context.append("<div class='put' style='display:none;'></div>");
+
+	context.append('<div class="put" style="display:none;">'+
+			'<input style="width:20px;height:20px;" type="text" /></div>');
 
 	this._cells = this.find(".in");
 	this._put =this.find(".put");
+
+	this._put.find("input").keyup(function() {
+		var r = that._current.attr('r'),
+			c = that._current.attr('c');
+		that.input(r, c, $(this).val());
+		this.value = ""; // clear value after typing
+		that._put.hide();
+	}).focusout(function() {
+		this._current = null ;
+		that._put.hide();
+		that.getCells().removeClass('fo');
+	});
+
 	this.bindCell();
 }
 
@@ -58,11 +72,9 @@ SudokuBox.prototype = {
 	 * @return SudukuBox
 	 */
 	bindCell : function() {
-		var sudokubox = this;
-		var $in = this.getCells();
-		$in.click(function() {
-			$tar = $(this);
-			sudokubox.startUserInput($(this));
+		var that = this;
+		this.getCells().click(function() {
+			that.startUserInput($(this));
 		});
 		return this;
 	},
@@ -145,6 +157,7 @@ SudokuBox.prototype = {
 			left : l,
 			top : t
 		}).show();
+		this._put.find("input").focus();
 		return this;
 	},
 	/**
@@ -154,18 +167,9 @@ SudokuBox.prototype = {
 	 * @Todo a warning for user entered a already exist number.
 	 */
 	startUserInput : function($tar) {
-		var r = $tar.attr('r'), c = $tar.attr('c'), $in = this.getCells(), that = this;
+		this._current = $tar;
 		this._maskCell($tar);
 		this.focusCells($tar);
-		$('<input type="text" r="' + r + '" c+"' + c + '" />').appendTo(this._put)
-				.keyup(function() {
-					that.input(r, c, $(this).val());
-					$in.removeClass('fo');
-					that._put.hide().find('input').remove();
-				}).focusout(function() {
-					$in.removeClass('fo');
-					that._put.hide().find('input').remove();
-				}).width(20).height(20).focus();
 		return this;
 	},
 	/**
