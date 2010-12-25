@@ -219,6 +219,7 @@ SudokuBox.prototype = {
 		var activeCell = this.findCell(r, c), span = activeCell.find('span');
 
 		span.html(value);
+		activeCell.addClass("inputed");
 		this.updateCells(activeCell);
 
 		if (solved)
@@ -247,5 +248,23 @@ SudokuBox.prototype = {
 		var activeCell = mn.parent(),
 			value = mn.attr('m');
 		this.input(activeCell.attr("r"), activeCell.attr("c"), value, solved);
+	},
+	/**
+	 *
+	 */
+	exportJSON : function(){
+		var json = [];
+		this.find(".inputed").each(function(){
+			var $this=$(this);
+			json.push("[" + $this.attr("r") + "," +
+					$this.attr("c") + "," +
+					$this.find("span").text() + "]\n");
+		});
+		return "["+json.join(",") +"]";
+	},
+	importJSON : function(json){
+		for(var ind = 0,len = json.length ; ind < len ; ++ind){
+			this.input(json[ind][0], json[ind][1], json[ind][2]);
+		}
 	}
 };

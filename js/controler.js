@@ -3,14 +3,7 @@
  */
 
 
-var sudokubox2 = new SudokuBox( $('.box'), {
-// a log for easy to build a test case
-	afterInput : function(r, c, value) {
-		$("#gen-result").val(
-				$("#gen-result").val() + "\nsudokubox.input(" + r + ", "
-						+ c + ", " + value + ");");
-	}
-});
+var sudokubox2 = new SudokuBox( $('.box'));
 /**
  * Start to resolve the soduku. (The event handler for the button)
  *
@@ -53,3 +46,9 @@ function _solve() {
 	}
 }
 $('#check_ok2').click(solve);
+$("#import").click(function(){
+	sudokubox2.importJSON($.parseJSON($("#gen-result").val()));
+});
+$("#export").click(function(){
+	$("#gen-result").val(sudokubox2.exportJSON());
+});
