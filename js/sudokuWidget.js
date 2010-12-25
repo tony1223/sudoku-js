@@ -38,8 +38,8 @@ function SudokuBox(context, opts) {
 	context.append(out.join(""));
 	context.append("<div class='put' style='display:none;'></div>");
 
-	this._cells = $(".in",context);
-	this._put = $(".put",context);
+	this._cells = this.find(".in");
+	this._put =this.find(".put");
 	this.bindCell();
 }
 
@@ -113,8 +113,7 @@ SudokuBox.prototype = {
 		var r = activeCell.attr('r'), c = activeCell.attr('c'), g = activeCell
 				.attr('g');
 
-		return this.getCells().filter(
-				'.r' + r + ',.c' + c + ',.g' + g );
+		return this.find('div.in.r' + r + ',div.in.c' + c + ',div.in.g' + g );
 	},
 
 	/**
@@ -173,7 +172,7 @@ SudokuBox.prototype = {
 	 * return selected cell as jQuery context.
 	 */
 	findCell : function(r, c) {
-		return this.context.find("#"+this.uuid+'-'+r+'-'+c);
+		return this.find("#"+this.uuid+'-'+r+'-'+c);
 	},
 	/**
 	 * for input a word
@@ -192,6 +191,12 @@ SudokuBox.prototype = {
 			this._doAfterInput.apply(this, [ r, c, value ]);
 
 		return this;
+	},
+	/**
+	 * find in the sudoku context
+	 */
+	find : function(selector){
+		return this.context.find(selector);
 	},
 	/**
 	 * input the cell value with the mn value

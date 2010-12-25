@@ -12,7 +12,7 @@ var SolveStrategy = {
 		// Here's a bit too tricky for me. :P
 		$.each( [ 'r', 'c', 'g' ], function(k, v) {
 			for ( var i = 0; i < 9; i++) {
-				var mm = $in.filter('[' + v + '="' + i + '"]').find('.mm');
+				var mm = sudoku.find('.' + v + i + '').find('.mm');
 
 				for ( var j = 1; j <= 9; j++) {
 					var tmp = mm.filter('[m="' + j + '"]');
