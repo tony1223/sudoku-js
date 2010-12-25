@@ -94,6 +94,7 @@ SudokuBox.prototype = {
 		activeCell.find('.mm').remove();
 		this.getRelativeCell(activeCell).find('.mm[m="' + n + '"]').remove();
 
+		return this;
 	},
 	getRelativeCell : function(activeCell) {
 		var r = activeCell.attr('r'), c = activeCell.attr('c'), g = activeCell
@@ -134,6 +135,7 @@ SudokuBox.prototype = {
 			left : l,
 			top : t
 		}).show();
+		return this;
 	},
 	/**
 	 *
@@ -154,6 +156,7 @@ SudokuBox.prototype = {
 					$in.removeClass('fo');
 					$put.hide().find('input').remove();
 				}).width(20).height(20).focus();
+		return this;
 	},
 	/**
 	 * return selected cell as jQuery context.
@@ -177,5 +180,6 @@ SudokuBox.prototype = {
 			// event
 			this._doAfterInput.apply(this, [ r, c, value ]);
 
+		return this;
 	}
 };
